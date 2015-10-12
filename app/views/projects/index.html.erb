@@ -1,0 +1,10 @@
+<h1>Projects List</h1>
+
+<%= link_to "Create new project", new_project_path %>
+
+<% @projects.each do |p| %>
+  <div>
+    <h2><%= link_to p.name,p %></h2>
+    <%= p.date %>
+  </div>
+<% end %>
