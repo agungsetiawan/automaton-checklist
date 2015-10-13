@@ -1,10 +1,38 @@
 <h1><%= @project.name %></h1> 
-<div><%= link_to "Edit",edit_project_path %></div>
+<%= @project.date %>
+
+<div>
+  <%= link_to "All projects", projects_path %>
+</div>
+<div>
+  <%= link_to "Edit",edit_project_path %>
+</div>
 <div>
   <%= link_to "Delete",@project, method: :delete, data: {confirm: "Really want to delete ?"} %>
 </div>
-<%= @project.date %>
 
 <p><%= @project.description %></p>
 
-<%= link_to "All projects", projects_path %>
+<h2>Tasks to be done today</h2>
+
+<div>
+  <ul>
+  <% @project.tasks.each do |t| %>
+    <li>
+      <%= check_box_tag :finish,t.finish %> <%= t.body %>
+	  <%= link_to "Edit",edit_project_task_path(@project.id,t) %>
+	  <%= link_to "Delete",project_task_path(@project.id, t), method: :delete, data: {confirm: "Sure to delete?"} %>
+    </li>
+  <% end %>
+  </ul>
+</div>
+
+<%= form_for([@project,@project.tasks.build]) do |f|%>
+<div>
+  <%= f.label :task %> <br/>
+  <%= f.text_area :body %>
+</div>
+<div>
+  <%= f.submit %>
+</div>
+<% end %>
