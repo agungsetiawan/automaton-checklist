@@ -2,8 +2,17 @@ class TasksController < ApplicationController
 
   def create
     @project=Project.find(params[:project_id])
-    @task=@project.tasks.create(task_params)
-    redirect_to @project
+    #@task=@project.tasks.create(task_params)
+
+    @task=Task.new(task_params)
+    @task.project_id=@project.id
+
+    if @task.save
+      redirect_to @project
+    else
+      render 'projects/show'
+      # redirect_to root_path
+    end
   end
 
   def edit
@@ -14,8 +23,12 @@ class TasksController < ApplicationController
   def update
     @project=Project.find(params[:project_id])
     @task=@project.tasks.find(params[:id])
-    @task.update_attributes(task_params)
-    redirect_to @project
+
+    if @task.update_attributes(task_params)
+      redirect_to @project
+    else
+      render 'edit'
+    end
   end
 
   def destroy

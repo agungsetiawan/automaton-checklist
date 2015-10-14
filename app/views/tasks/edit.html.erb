@@ -1,5 +1,16 @@
 <h2>Edit Task</h2>
 
+<% if @task %>
+  <%if @task.errors.any?%>
+    <ul>
+    <% @task.errors.full_messages.each do |m|%>
+      <li><%= m  %></li>
+    <% end %>
+    </ul>
+  <% end %>
+<% end %>
+
+
 <%= form_for([@project,@project.tasks.find(params[:id])]) do |f| %>
   <div>
     <%= f.label :task %> </br>

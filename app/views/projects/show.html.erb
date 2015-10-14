@@ -5,7 +5,7 @@
   <%= link_to "All projects", projects_path %>
 </div>
 <div>
-  <%= link_to "Edit",edit_project_path %>
+  <%= link_to "Edit",edit_project_path(@project) %>
 </div>
 <div>
   <%= link_to "Delete",@project, method: :delete, data: {confirm: "Really want to delete ?"} %>
@@ -20,12 +20,22 @@
   <% @project.tasks.each do |t| %>
     <li>
       <%= check_box_tag :finish,t.finish %> <%= t.body %>
-	  <%= link_to "Edit",edit_project_task_path(@project.id,t) %>
-	  <%= link_to "Delete",project_task_path(@project.id, t), method: :delete, data: {confirm: "Sure to delete?"} %>
+	    <%= link_to "Edit",edit_project_task_path(@project,t) %>
+	    <%= link_to "Delete",project_task_path(@project, t), method: :delete, data: {confirm: "Sure to delete?"} %>
     </li>
   <% end %>
   </ul>
 </div>
+
+<% if @task %>
+  <%if @task.errors.any?%>
+    <ul>
+    <% @task.errors.full_messages.each do |m|%>
+      <li><%= m  %></li>
+    <% end %>
+    </ul>
+  <% end %>
+<% end %>
 
 <%= form_for([@project,@project.tasks.build]) do |f|%>
 <div>
