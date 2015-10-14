@@ -1,0 +1,33 @@
+<h1>Registration</h1>
+
+<% if @user.errors.any? %>
+  <ul>
+  <% @user.errors.full_messages.each do |m|%>
+    <li>
+      <%= m %>
+    </li>
+  <% end %>
+  </ul>
+<% end %>
+
+<%= form_for(@user) do |f| %>
+  <div>
+    <%= f.label :username %> </br>
+    <%= f.text_field :username %>
+  </div>
+  <div>
+    <%= f.label :email %> </br>
+    <%= f.email_field :email %>
+  </div>
+  <div>
+    <%= f.label :password %> </br>
+    <%= f.password_field :password %>
+  </div>
+  <div>
+    <%= f.submit "Register" %>
+  </div>
+<% end %>
+
+<div>
+Already have an account? <%= link_to "Login", login_path %>
+</div>

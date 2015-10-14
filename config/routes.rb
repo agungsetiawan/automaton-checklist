@@ -1,8 +1,17 @@
 Rails.application.routes.draw do
 
+  root 'projects#index'
+
   resources :projects do
     resources :tasks
   end
+
+  resources :users, only: [:create]
+
+  get '/register' => 'users#new'
+  get '/login' => 'sessions#new'
+  post '/login' => 'sessions#create'
+  delete '/logout'=> 'sessions#destroy',as: 'logout'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
