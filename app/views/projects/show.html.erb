@@ -19,7 +19,7 @@
   <ul>
   <% @project.tasks.each do |t| %>
     <li>
-      <%= check_box_tag :finish,t.finish %> <%= t.body %>
+      <%= check_box_tag :finish,"",t.finish,class: "task", data: {id: t.id, project_id: @project.id} %> <%= t.body %>
 	    <%= link_to "Edit",edit_project_task_path(@project,t) %>
 	    <%= link_to "Delete",project_task_path(@project, t), method: :delete, data: {confirm: "Sure to delete?"} %>
     </li>

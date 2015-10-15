@@ -31,6 +31,14 @@ class TasksController < ApplicationController
     end
   end
 
+  def update_finish
+    @project=Project.find(params[:project_id])
+    @task=@project.tasks.find(params[:id])
+
+    @task.toggle(:finish).save
+    head 204
+  end
+
   def destroy
     @project=Project.find(params[:project_id])
     @task=@project.tasks.find(params[:id])
