@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AutomatonChecklist</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
@@ -8,12 +9,27 @@
 </head>
 <body>
 
-<% if current_user %>
-<%= current_user.username %>
-<%= link_to "Logout",logout_path, method: :delete %>
-<% end %>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+  	 <div class="collapse navbar-collapse">
+  	 	<ul class="nav navbar-nav navbar-right">
+  	 	  <% if current_user %>
+			<li><a href="#"><%= current_user.username %></a></li>
+			<li><%= link_to "Logout",logout_path, method: :delete %></li>
+		  <% else %>
+		    <li><%= link_to "Register", register_path %></li>
+		    <li><%= link_to "Login", login_path %></li>
+		  <% end %>
+        </ul>
+  	 </div>
+  </div>
+</nav>
 
-<%= yield %>
+
+
+<div class="container">
+  <%= yield %>
+</div>
 
 </body>
 </html>
