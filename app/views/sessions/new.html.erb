@@ -1,5 +1,9 @@
 <h1>Login</h1>
 
+<% if @error %>
+  <p class="error-list"><%= @error %></p>
+<% end %>
+
 <%= form_for(:session) do |f|%>
 <div class="form-group">
   <%= f.label :username %> </br>

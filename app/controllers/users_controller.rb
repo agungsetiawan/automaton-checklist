@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
 
   def new
+    return redirect_to root_path if current_user
   	@user=User.new
   end
 

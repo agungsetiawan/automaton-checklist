@@ -1,6 +1,7 @@
 class SessionsController < ApplicationController
 
   def new
+    redirect_to root_path if current_user
   end
 
   def create
@@ -11,6 +12,7 @@ class SessionsController < ApplicationController
 
       redirect_to root_path
     else
+      @error="Username and / or password don't match"
       render 'new'
     end
   end
