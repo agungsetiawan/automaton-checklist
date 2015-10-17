@@ -1,7 +1,10 @@
 class TasksController < ApplicationController
 
   def create
-    @project=Project.find(params[:project_id])
+    @project=current_user.projects.find_by_id(params[:project_id])
+
+    return redirect_to root_path unless @project
+    
     #@task=@project.tasks.create(task_params)
 
     @task=Task.new(task_params)
@@ -16,12 +19,18 @@ class TasksController < ApplicationController
   end
 
   def edit
-  	@project=Project.find(params[:project_id])
-  	# @task=@project.tasks.find(params[:id])
+  	@project=current_user.projects.find_by_id(params[:project_id])
+
+    return redirect_to root_path unless @project
+
+  	@task=@project.tasks.find(params[:id])
   end
 
   def update
-    @project=Project.find(params[:project_id])
+    @project=current_user.projects.find_by_id(params[:project_id])
+
+    return redirect_to root_path unless @project
+
     @task=@project.tasks.find(params[:id])
 
     if @task.update_attributes(task_params)
@@ -32,7 +41,10 @@ class TasksController < ApplicationController
   end
 
   def update_finish
-    @project=Project.find(params[:project_id])
+    @project=current_user.projects.find_by_id(params[:project_id])
+
+    return redirect_to root_path unless @project
+
     @task=@project.tasks.find(params[:id])
 
     @task.toggle(:finish).save
@@ -40,7 +52,10 @@ class TasksController < ApplicationController
   end
 
   def destroy
-    @project=Project.find(params[:project_id])
+    @project=current_user.projects.find_by_id(params[:project_id])
+
+    return redirect_to root_path unless @project
+
     @task=@project.tasks.find(params[:id])
     @task.destroy
     redirect_to @project
