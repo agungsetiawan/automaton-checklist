@@ -1,11 +1,12 @@
 class TasksController < ApplicationController
 
-  def create
-    @project=current_user.projects.find_by_id(params[:project_id])
+  before_action :require_login
+  before_action :select_project_task, except: [:create]
 
-    return redirect_to root_path unless @project
-    
+  def create
     #@task=@project.tasks.create(task_params)
+    @project=current_user.projects.find_by_id(params[:project_id])
+    return redirect_to root_path unless @project
 
     @task=Task.new(task_params)
     @task.project_id=@project.id
@@ -19,20 +20,9 @@ class TasksController < ApplicationController
   end
 
   def edit
-  	@project=current_user.projects.find_by_id(params[:project_id])
-
-    return redirect_to root_path unless @project
-
-  	@task=@project.tasks.find(params[:id])
   end
 
   def update
-    @project=current_user.projects.find_by_id(params[:project_id])
-
-    return redirect_to root_path unless @project
-
-    @task=@project.tasks.find(params[:id])
-
     if @task.update_attributes(task_params)
       redirect_to @project
     else
@@ -41,22 +31,11 @@ class TasksController < ApplicationController
   end
 
   def update_finish
-    @project=current_user.projects.find_by_id(params[:project_id])
-
-    return redirect_to root_path unless @project
-
-    @task=@project.tasks.find(params[:id])
-
     @task.toggle(:finish).save
     head 204
   end
 
   def destroy
-    @project=current_user.projects.find_by_id(params[:project_id])
-
-    return redirect_to root_path unless @project
-
-    @task=@project.tasks.find(params[:id])
     @task.destroy
     redirect_to @project
   end
@@ -64,6 +43,13 @@ class TasksController < ApplicationController
   private
   def task_params
     params.require(:task).permit(:body)
+  end
+
+  def select_project_task
+    @project=current_user.projects.find_by_id(params[:project_id])
+    return redirect_to root_path unless @project
+
+    @task=@project.tasks.find(params[:id])
   end
 
 end
